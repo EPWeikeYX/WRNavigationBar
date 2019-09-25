@@ -566,6 +566,8 @@ static int wrPushDisplayCount = 0;
 
 #pragma mark - deal the gesture of return
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
+    NSString *sysVersion = [[UIDevice currentDevice] systemVersion];
+
     __weak typeof (self) weakSelf = self;
     id<UIViewControllerTransitionCoordinator> coor = [self.topViewController transitionCoordinator];
     if ([coor initiallyInteractive] == YES) {
@@ -588,6 +590,9 @@ static int wrPushDisplayCount = 0;
     NSUInteger n = self.viewControllers.count >= itemCount ? 2 : 1;
     UIViewController *popToVC = self.viewControllers[self.viewControllers.count - n];
     [self popToViewController:popToVC animated:YES];
+    if ([sysVersion floatValue]>=13.0) {
+           return NO;
+    }
     return YES;
 }
 
